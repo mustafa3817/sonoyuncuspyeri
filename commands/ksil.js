@@ -1,3 +1,5 @@
+const fs = require('fs');
+const path = require('path');
 module.exports = {
   name: 'ksil',
   async execute(interaction, config) {
@@ -18,9 +20,14 @@ module.exports = {
       await interaction.reply({ content: 'Kullanıcı bulunamadı.', flags: 64 });
       return;
     }
-    if (config.karaliste[targetId]) {
-      delete config.karaliste[targetId];
-      fs.writeFileSync(path.join(__dirname, '../config.json'), JSON.stringify(config, null, 2), 'utf8');
+    const kdataPath = path.join(__dirname, '../kdata.json');
+    let kdata = {};
+    try {
+      kdata = JSON.parse(fs.readFileSync(kdataPath, 'utf8'));
+    } catch (e) {}
+    if (kdata[targetId]) {
+      delete kdata[targetId];
+      fs.writeFileSync(kdataPath, JSON.stringify(kdata, null, 2), 'utf8');
       await interaction.reply({ content: `<@${targetId}> karalisteden silindi.`, flags: 64 });
     } else {
       await interaction.reply({ content: 'Kişi karalistede değil.', flags: 64 });

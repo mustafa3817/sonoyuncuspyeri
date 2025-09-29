@@ -1,6 +1,8 @@
+const fs = require('fs');
+const path = require('path');
 module.exports = {
   name: 'kekle',
-  async execute(interaction, config, data, saveData) {
+  async execute(interaction, config) {
     if (!config.admins.includes(interaction.user.id)) {
       await interaction.reply({ content: 'Bu komutu kullanma yetkiniz yok.', flags: 64 });
       return;
@@ -9,17 +11,22 @@ module.exports = {
     const nick = interaction.options.getString('nick');
     let targetId = user ? user.id : null;
     let targetNick = nick || (user ? user.username : null);
-    if (!targetId && targetNick) {
-      const guild = interaction.guild;
-      const member = guild.members.cache.find(m => m.user.username === targetNick || m.nickname === targetNick);
-      if (member) targetId = member.id;
+    const kdataPath = path.join(__dirname, '../kdata.json');
+    let kdata = {};
+    try {
+      kdata = JSON.parse(fs.readFileSync(kdataPath, 'utf8'));
+    } catch (e) {}
+    if (targetId) {
+      kdata[targetId] = targetNick;
+      fs.writeFileSync(kdataPath, JSON.stringify(kdata, null, 2), 'utf8');
+      await interaction.reply({ content: `<@${targetId}> (${targetNick}) karalisteye eklendi.`, flags: 64 });
+    } else if (targetNick) {
+      // Sadece nick girildiyse ID olmadan ekle
+      kdata[targetNick] = null;
+      fs.writeFileSync(kdataPath, JSON.stringify(kdata, null, 2), 'utf8');
+      await interaction.reply({ content: `${targetNick} karalisteye eklendi (ID yok).`, flags: 64 });
+    } else {
+      await interaction.reply({ content: 'Kullanıcı veya nick girilmedi.', flags: 64 });
     }
-    if (!targetId) {
-      await interaction.reply({ content: 'Kullanıcı bulunamadı.', flags: 64 });
-      return;
-    }
-    config.karaliste[targetId] = targetNick;
-    fs.writeFileSync(path.join(__dirname, '../config.json'), JSON.stringify(config, null, 2), 'utf8');
-    await interaction.reply({ content: `<@${targetId}> (${targetNick}) karalisteye eklendi.`, flags: 64 });
   }
 };

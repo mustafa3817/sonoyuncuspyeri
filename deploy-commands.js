@@ -11,10 +11,10 @@ const GUILD_ID = config.guildId;
 const commands = [
   new SlashCommandBuilder()
     .setName('ekle')
-    .setDescription('Bir kullanıcıya gün cinsinden süre ekler')
-    .addUserOption(option => option.setName('user').setDescription('Kullanıcı').setRequired(true))
-    .addStringOption(option => option.setName('nick').setDescription('Kullanıcı takma adı').setRequired(true))
-    .addIntegerOption(option => option.setName('sure').setDescription('Süre (gün)').setRequired(true)),
+    .setDescription('Bir kullanıcıya gün cinsinden süre ekler. user veya nick girilebilir.' )
+    .addIntegerOption(option => option.setName('sure').setDescription('Süre (gün)').setRequired(true))
+    .addUserOption(option => option.setName('user').setDescription('Kullanıcı (isteğe bağlı)').setRequired(false))
+    .addStringOption(option => option.setName('nick').setDescription('Kullanıcı takma adı (isteğe bağlı)').setRequired(false)),
   new SlashCommandBuilder()
     .setName('ekliler')
     .setDescription('Süre eklenen kişileri listeler'),
@@ -30,7 +30,20 @@ const commands = [
     .setName('dm')
     .setDescription('Bir kullanıcıya DM ile mesaj gönder')
     .addUserOption(option => option.setName('user').setDescription('Kullanıcı').setRequired(true))
-    .addStringOption(option => option.setName('mesaj').setDescription('Gönderilecek mesaj').setRequired(true))
+    .addStringOption(option => option.setName('mesaj').setDescription('Gönderilecek mesaj').setRequired(true)),
+  new SlashCommandBuilder()
+    .setName('karaliste')
+    .setDescription('Karalisteyi görüntüle'),
+  new SlashCommandBuilder()
+    .setName('kekle')
+    .setDescription('Bir kullanıcıyı karalisteye ekle. user veya nick girilebilir.' )
+    .addUserOption(option => option.setName('user').setDescription('Kullanıcı (isteğe bağlı, en az bir alan girilmeli)').setRequired(false))
+    .addStringOption(option => option.setName('nick').setDescription('Kullanıcı takma adı (isteğe bağlı, en az bir alan girilmeli)').setRequired(false)),
+  new SlashCommandBuilder()
+    .setName('ksil')
+    .setDescription('Bir kullanıcıyı karalisteden sil. user veya nick girilebilir.' )
+    .addUserOption(option => option.setName('user').setDescription('Kullanıcı (isteğe bağlı, en az bir alan girilmeli)').setRequired(false))
+    .addStringOption(option => option.setName('nick').setDescription('Kullanıcı takma adı (isteğe bağlı, en az bir alan girilmeli)').setRequired(false))
 ]
   .map(command => command.toJSON());
 

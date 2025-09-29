@@ -10,8 +10,14 @@ module.exports = {
       return;
     }
     let msg = 'Süre eklenenler:\n';
-    for (const [uid, info] of Object.entries(data)) {
-      msg += `<@${uid}> (${info.nick}): ${info.bitis}\n`;
+      for (const [idOrNick, obj] of Object.entries(data)) {
+        if (/^\d+$/.test(idOrNick)) {
+          // ID ise
+          msg += `<@${idOrNick}> (${obj.nick}): ${obj.bitis}\n`;
+        } else {
+          // Sadece nick ise
+          msg += `(dcsi yok) (${obj.nick}): ${obj.bitis}\n`;
+        }
     }
     await interaction.reply(msg);
   }
