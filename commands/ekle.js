@@ -24,7 +24,11 @@ module.exports = {
       kdata = JSON.parse(fs.readFileSync(path.join(__dirname, '../kdata.json'), 'utf8'));
     } catch (e) {}
     // Karaliste kontrolü
-    if ((targetId && kdata[targetId]) || (targetNick && Object.values(kdata).includes(targetNick))) {
+    if (
+      (targetId && kdata[targetId]) ||
+      (targetNick && Object.values(kdata).includes(targetNick)) ||
+      (targetNick && Object.keys(kdata).includes(targetNick))
+    ) {
       await interaction.reply({ content: 'Bu kişi karalistededir.', flags: 64 });
       return;
     }

@@ -1,3 +1,4 @@
+
 module.exports = {
   name: 'karaliste',
   async execute(interaction, config) {
