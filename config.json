@@ -1,0 +1,12 @@
+{
+  "token": "TOKENINIZI_BURAYA_YAZIN",
+  "clientId": "CLIENT_ID_BURADA",
+  "guildId": "GUILD_ID_BURADA",
+  "dmUserMessage": "Sayın {username}, kalan süreniz 1 gün!",
+  "dmAdminMessage": "{nick} isimli kişinin 1 günü kalmıştır!",
+  "admins": [
+    "ADMIN_ID_BURADA"
+  ],
+  "roleId": "ROL_ID_BURADA",
+  "logChannelId": "LOG_KANAL_ID_BURADA"
+}
